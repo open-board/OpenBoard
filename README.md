@@ -12,3 +12,13 @@ curl -sS get.pimoroni.com/displayotron | bash
 # Install python dependencies
 pip install -r requirements.txt
 ```
+
+## Development
+
+```
+# Setup a virtual environment
+python3 -m venv pyenv
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+```
