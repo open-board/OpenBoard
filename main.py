@@ -78,6 +78,8 @@ while True:
     for train in tree.xpath('//table/tr'):
         train_dict = {
             'destination': train.xpath('td[@class="location"]/span')[1].text
+            'planned_time': datetime()
+            'has_passed': True
         }
         output.append(train_dict)
 
