@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+from io import StringIO
+from lxml import etree
 
 def generate_rtt_url(start_time=datetime.now()):
     """Create a Realtime Trains detailed listing URL from a specified start time.  The generated URL will look for movements that are expected for 24 hours following the input start time.
@@ -18,6 +20,28 @@ def generate_rtt_url(start_time=datetime.now()):
 
     url = URL_REAL_TIME_TRAINS.format(yyyy=start_time.year,mm=start_time.strftime('%m'),dd=start_time.strftime('%d'),hhhh1=time,hhhh2=time_tomorrow)
     return url
+
+
+def load_rtt_trains(html_str):
+    """Return train information from a Realtime Trains detailed listing HTML page.
+
+    Args:
+        html_str (str): HTML string representing a RTT detailed departure board page.
+
+    Returns:
+        list of dict: Containing data about each train on the input page.
+    """
+    parser = etree.HTMLParser()
+    tree = etree.parse(StringIO(html_str), parser)
+
+    output = list()
+    for train in tree.xpath('//table/tr'):
+        train_dict = {
+            'destination': train.xpath('td[@class="location"]/span')[1].text
+        }
+        output.append(train_dict)
+    return output
+
 
 # Define test connection to Realtime Trains function
 def test_rtt_connection():

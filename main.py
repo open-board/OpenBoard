@@ -16,8 +16,6 @@ import requests
 import display
 import rtt
 from dothat import lcd, backlight
-from io import StringIO
-from lxml import etree
 from time import sleep
 
 if __name__ == "__main__":
@@ -45,18 +43,9 @@ if __name__ == "__main__":
 
         url = rtt.generate_rtt_url()
         data = requests.get(url)
-
-        parser = etree.HTMLParser()
-        tree = etree.parse(StringIO(data.text), parser)
-
-        output = list()
-        for train in tree.xpath('//table/tr'):
-            train_dict = {
-                'destination': train.xpath('td[@class="location"]/span')[1].text
-            }
-            output.append(train_dict)
+        trains = rtt.load_rtt_trains(data.text)
 
         lcd.clear()
-        lcd.write('To '+output[0]['destination'])
+        lcd.write('To '+trains[0]['destination'])
 
         sleep(5)  # Wait for a number of seconds minute

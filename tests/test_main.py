@@ -29,6 +29,28 @@ def test_generate_rtt_url_format(input_start_time, expected_date_result):
     assert time_range == expected_date_result[2]  # Time range
 
 
+def test_load_rtt_trains():
+    """Test that an HTML result parses trains and returns a dictionary."""
+    with open('tests/test_data/rtt_detailed_list_of_trains.html', 'r') as html_file:
+        html_str = html_file.read()
+    result = rtt.load_rtt_trains(html_str)
+
+    assert len(result) == 11  # There are 11 trains on the test data page.
+
+    # Assert that the expected destination of each train is extracted.
+    assert result[0]['destination'] == "Portsmouth Harbour"
+    assert result[1]['destination'] == "Bristol Temple Meads"
+    assert result[2]['destination'] == "Westbury Lafarge"
+    assert result[3]['destination'] == "Stoke Gifford"
+    assert result[4]['destination'] == "Bristol Temple Meads"
+    assert result[5]['destination'] == "Leeds"
+    assert result[6]['destination'] == "Cheltenham Spa"
+    assert result[7]['destination'] == "Cardiff Central"
+    assert result[8]['destination'] == "Portsmouth Harbour"
+    assert result[9]['destination'] == "Bristol Temple Meads"
+    assert result[10]['destination'] == "Cardiff Central"
+
+
 def test_is_one():
 
     '''Tests that a range of input strings always return expected boolean outcomes.'''
