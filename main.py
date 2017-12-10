@@ -151,3 +151,19 @@ def fill_line(input_string):
 
     # Return trimmed output
     return(trimmed_output)
+
+def is_one(input_string):
+
+    '''
+    Returns a boolean depending if a input_string is the number one.
+
+    Args:
+        input_object (string): The string to check.
+
+    Returns:
+        Boolean: True if one, False if not.
+    '''
+
+    # Return True if length of input as a string is one character long
+    # Otherwise, return False
+    return (input_string) == '1'
