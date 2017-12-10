@@ -34,11 +34,11 @@ def test_is_one():
     '''Tests that a range of input strings always return expected boolean outcomes.'''
 
     # Test strings
-    assert display.is_one('1') == True
-    assert display.is_one('2') == False
-    assert display.is_one('10') == False
-    assert display.is_one('a') == False
-    assert display.is_one('aa') == False
+    assert display.is_one('1') is True
+    assert display.is_one('2') is False
+    assert display.is_one('10') is False
+    assert display.is_one('a') is False
+    assert display.is_one('aa') is False
 
 
 def test_fill_line():
@@ -57,11 +57,11 @@ def test_display():
 
     # Test length
     assert len(display.display('10',
-                       'A very, very, very, very, long station name',
-                       'Another very, very, very, very, long station name')) == 48
+                               'A very, very, very, very, long station name',
+                               'Another very, very, very, very, long station name')) == 48
     assert len(display.display('1',
-                       'Short name',
-                       'Short name')) == 48
+                               'Short name',
+                               'Short name')) == 48
 
     # Test correct 'min' or 'mins' appear
     assert 'min' in (display.display('1', 'Short name', 'Short name'))
