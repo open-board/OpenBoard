@@ -1,7 +1,9 @@
 '''
 
 About:
+
     Displays on a Display-o-tron screen information about the next train passing Narroways Hill Junction
+
     Uses Realtime trains
 
 # Development
