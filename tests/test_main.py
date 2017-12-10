@@ -26,3 +26,44 @@ def test_generate_rtt_url_format(input_start_time, expected_date_result):
     assert url_components[8] == expected_date_result[0]  # Day
     assert url_components[7] == expected_date_result[1]  # Month
     assert time_range == expected_date_result[2]  # Time range
+
+
+def test_is_one():
+
+    '''Tests that a range of input strings always return expected boolean outcomes.'''
+
+    # Test strings
+    assert is_one('1') == True
+    assert is_one('2') == False
+    assert is_one('10') == False
+    assert is_one('a') == False
+    assert is_one('aa') == False
+
+
+def test_fill_line():
+
+    '''Tests that a range of input strings always return 16 character strings.'''
+
+    # Test strings
+    assert len(fill_line('asdiasd')) == 16
+    assert len(fill_line('123')) == 16
+    assert len(fill_line('This is a really long line, more than 16 characters')) == 16
+
+
+def test_display():
+
+    '''Tests that a range of input strings always return expected outcomes.'''
+
+    # Test length
+    assert len(display('10',
+                       'A very, very, very, very, long station name',
+                       'Another very, very, very, very, long station name')) == 48
+    assert len(display('1',
+                       'Short name',
+                       'Short name')) == 48
+
+    # Test correct 'min' or 'mins' appear
+    assert 'min' in (display('1', 'Short name', 'Short name'))
+    assert 'mins' in (display('2', 'Short name', 'Short name'))
+    assert 'mins' in (display('20', 'Short name', 'Short name'))
+    
