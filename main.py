@@ -167,3 +167,28 @@ def is_one(input_string):
     # Return True if length of input as a string is one character long
     # Otherwise, return False
     return (input_string) == '1'
+
+def mock_up(input_string):
+
+    '''
+    Mocks-up Display-O-Tron screen for given input_string.
+
+    Example:
+
+        Argument:
+            input_string: '123456789012345612345678901234561234567890123456'
+
+        Prints:
+            1234567890123456
+            1234567890123456
+            1234567890123456
+    '''
+
+    # Print first 16 characters
+    print(input_string[:16])
+
+    # On new line, print next 16 characters
+    print(input_string[16:32])
+
+    # On new line, print final 16 characters
+    print(input_string[32:48])
