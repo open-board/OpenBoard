@@ -192,3 +192,37 @@ def mock_up(input_string):
 
     # On new line, print final 16 characters
     print(input_string[32:48])
+
+def display(countdown_time, origin, destination):
+
+    '''
+    Returns defined information about a train formatted for Display-O-Tron
+
+    Args:
+        countdown_time (string): The number of minutes remaining until event.
+        origin (string): The origin of the train.
+        destination (string): The destination of the train.
+
+    Returns:
+        String of defined information about a train formatted for Display-O-Tron
+
+    Example:
+
+        Args:
+            countdown_time: '1'
+            origin: 'Bristol'
+            destination: 'Bath'
+
+        Returns:
+            '1 min           Bristol         Bath            '
+    '''
+
+    # If countdown_time one character long
+    if is_one(countdown_time) is True:
+
+        # Return output formatted for Display-o-tron display
+        return(fill_line(countdown_time+' min')+fill_line(origin)+fill_line(destination))
+
+    # If countdown_time more than one character long:
+    if is_one(countdown_time) is False:
+        return(fill_line(countdown_time+' mins')+fill_line(origin)+fill_line(destination))
