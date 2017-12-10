@@ -22,3 +22,11 @@ python3 -m venv pyenv
 # Install development dependencies
 pip install -r requirements-dev.txt
 ```
+
+## Tests
+
+Run the tests using pytest
+
+```
+PYTHONPATH=. py.test
+```
