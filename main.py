@@ -86,4 +86,4 @@ if __name__ == "__main__":
         lcd.clear()
         lcd.write('To '+output[0]['destination'])
 
-        sleep(5)  # Wait for one minute
+        sleep(5)  # Wait for a number of seconds minute
