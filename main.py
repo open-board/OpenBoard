@@ -13,6 +13,7 @@ About:
 
 # Import libraries
 import requests
+import rtt
 from dothat import lcd, backlight
 from io import StringIO
 from lxml import etree
@@ -41,7 +42,7 @@ if __name__ == "__main__":
         lcd.clear()
         lcd.write("Refreshing...")
 
-        url = generate_rtt_url()
+        url = rtt.generate_rtt_url()
         data = requests.get(url)
 
         parser = etree.HTMLParser()

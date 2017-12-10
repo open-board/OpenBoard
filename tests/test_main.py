@@ -1,4 +1,4 @@
-import main
+import rtt
 import pytest
 from datetime import datetime
 from urlparse import urlparse
@@ -9,8 +9,8 @@ from urlparse import urlparse
  ])
 def test_generate_rtt_url_is_url(input_start_time):
     """Check that a valid URL is returned for an input_start_time."""
-    result = main.generate_rtt_url(input_start_time)
     assert urlparse(result)
+    result = rtt.generate_rtt_url(input_start_time)
 
 @pytest.mark.parametrize("input_start_time, expected_date_result", [
     (datetime(2017, 1, 1, 0, 0, 0), ("01", "01", "0000-2359")),  # Datetime with every aspect (year, month, day, hour, minute, second) as a single digit.
@@ -19,7 +19,7 @@ def test_generate_rtt_url_is_url(input_start_time):
  ])
 def test_generate_rtt_url_format(input_start_time, expected_date_result):
     """Check that a URL containing the expected month, day and time formats is returned."""
-    result = main.generate_rtt_url(input_start_time)
+    result = rtt.generate_rtt_url(input_start_time)
     url_components = result.split('/')
     time_range = result.split('/')[-1:][0].split('?')[0]
 
@@ -66,4 +66,3 @@ def test_display():
     assert 'min' in (display('1', 'Short name', 'Short name'))
     assert 'mins' in (display('2', 'Short name', 'Short name'))
     assert 'mins' in (display('20', 'Short name', 'Short name'))
-    
