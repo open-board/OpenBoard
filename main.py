@@ -101,3 +101,53 @@ if __name__ == "__main__":
         lcd.write('To '+output[0]['destination'])
 
         sleep(5)  # Wait for a number of seconds minute
+
+def fill_line(input_string):
+
+    '''
+    Returns input_string as a 16 character filled string.
+
+        Args:
+            input_object (string): The string to manipulate.
+
+        Returns:
+            input_string as a 16 character filled string
+
+        Methodolodies:
+            Padding or trimming input_string, unless input_string is already 16 characters long.
+
+    Examples:
+
+        Argument: input_string: 'Sixteen charas  '
+        Returns: 'Sixteen charas  '
+        Methodolody: Return input_string
+
+        Argument: input_string: 'Short name'
+        Returns: 'Short name      '
+        Methodolody: Pad input_string
+
+        Argument: input_string: 'Very, very, very, long name'
+        Returns: 'Very, very, very'
+        Methodolody: Trim input_string
+    '''
+
+    # Convert input to string
+    input_string = str(input_string)
+
+    # Count length of input object
+    length = len(str(input_string))
+
+    # Work out how many spaces to add
+    to_add = 16-length
+
+    # Save spaces to add
+    spaces = ' ' * to_add
+
+    # Save untrimmed output
+    untrimmed_output = input_string+spaces
+
+    # Save trimmed output
+    trimmed_output = untrimmed_output[:16]
+
+    # Return trimmed output
+    return(trimmed_output)
