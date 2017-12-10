@@ -1,7 +1,7 @@
 import rtt
 import pytest
 from datetime import datetime
-from urlparse import urlparse
+from urllib import parse
 
 @pytest.mark.parametrize("input_start_time", [
     datetime(2017, 1, 1, 0, 0, 0),  # Datetime with every aspect (year, month, day, hour, minute, second) as single digits.
@@ -9,8 +9,8 @@ from urlparse import urlparse
  ])
 def test_generate_rtt_url_is_url(input_start_time):
     """Check that a valid URL is returned for an input_start_time."""
-    assert urlparse(result)
     result = rtt.generate_rtt_url(input_start_time)
+    assert parse.urlparse(result)
 
 @pytest.mark.parametrize("input_start_time, expected_date_result", [
     (datetime(2017, 1, 1, 0, 0, 0), ("01", "01", "0000-2359")),  # Datetime with every aspect (year, month, day, hour, minute, second) as a single digit.
