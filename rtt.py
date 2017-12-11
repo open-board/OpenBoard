@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from io import StringIO
+from os import system
 from lxml import etree
 
 def generate_rtt_url(start_time=datetime.now()):

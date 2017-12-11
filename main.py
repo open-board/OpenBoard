@@ -29,7 +29,7 @@ if __name__ == "__main__":
     lcd.write('Connecting...')
 
     # While connection to Realtime Trains does not work
-    while test_rtt_connection() is False:
+    while rtt.test_rtt_connection() is False:
         # Clear Display-o-tron display
         lcd.clear()
         # Display "Cannot connect" message on Display-o-tron
