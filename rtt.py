@@ -43,9 +43,9 @@ def load_rtt_trains(html_str, datetime_accessed=datetime.now()):
         train_dict = {
             'origin': train.xpath('td[@class="location"]/span')[0].text,
             'destination': train.xpath('td[@class="location"]/span')[1].text,
-            'is_cancelled': is_cancelled(realtime_str)
+            'is_running': is_time(realtime_str)
         }
-        if train_dict['is_cancelled'] is True:
+        if train_dict['is_running'] is False:
             train_dict['datetime_actual'] = None
         else:
             train_dict['datetime_actual'] = convert_time(realtime_str, datetime_accessed)
@@ -75,11 +75,29 @@ def test_rtt_connection():
         # Return False
         return False
 
-def is_cancelled(input_string):
 
-    '''Returns True if input_string is 'Cancel', otherwise, returns False'''
+def is_time(input_string):
 
-    # If input_string is 'Cancel' as a string
+    '''Returns True if input_string is a time, otherwise, returns False'''
+
+    # Save first four characters of input_string
+    first_four = input_string[0:4]
+
+    # Try
+    try:
+        # To convert first_four into integer
+        int(first_four)
+
+        # If converts, return True
+        return True
+
+    # If first_four does not convert to an Integer
+    except ValueError:
+
+        # Return False
+        return False
+
+
     if input_string == 'Cancel':
 
         # Return True
@@ -91,7 +109,6 @@ def is_cancelled(input_string):
         # Return False
         return False
 
-# Sort for half minutes using round() from math
 
 def mins_left_calc(event_time, comparison_time=datetime.now()):
 

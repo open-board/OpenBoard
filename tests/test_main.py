@@ -46,12 +46,12 @@ def test_load_rtt_trains_content():
     assert result[1]['origin'] == "Worcester Shrub Hill"
     assert result[1]['destination'] == "Bristol Temple Meads"
     assert result[1]['datetime_actual'] == datetime(2017, 12, 12, 20, 8, 0)
-    assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
+    assert result[1]['is_running'] is True  # The second train in the list running late, but not cancelled
 
     assert result[2]['origin'] == "Tunstead Sdgs"
     assert result[2]['destination'] == "Westbury Lafarge"
     assert result[2]['datetime_actual'] is None
-    assert result[2]['is_cancelled'] is True  # The third train in the list is cancelled
+    assert result[2]['is_running'] is False  # The third train in the list is cancelled
 
     assert result[3]['origin'] == "Bristol Temple Meads"
     assert result[3]['destination'] == "Stoke Gifford"
@@ -126,21 +126,25 @@ def test_display():
     assert 'mins' in (display.display('20', 'Short name', 'Short name'))
 
 
-def test_is_cancelled():
+def test_is_time():
 
-    '''Tests four types of input_string return expected outcomes from is_cancelled function'''
+    '''Tests four types of input_string return expected outcomes from is_time function'''
 
-    # Check cancelled
-    assert rtt.is_cancelled('Cancel') == True
+    # Test cancelled
+    assert rtt.is_time('Cancel') is False
 
-    # Check time
-    assert rtt.is_cancelled('1234') == False
+    # Test time
+    assert rtt.is_time('1234') is True
 
-    # Check empty string
-    assert rtt.is_cancelled('') == False
+    # Test empty string
+    assert rtt.is_time('') is False
 
-    # Check gobbledygook
-    assert rtt.is_cancelled('askjha7t91iewih%%') == False
+    # Test gobbledygook
+    assert rtt.is_time('askjha7t91iewih%%') is False
+
+    # Test (Q)
+    assert rtt.is_time('(Q)') is False
+
 
 # Add half-minute test
 
