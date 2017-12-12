@@ -47,7 +47,7 @@ if __name__ == "__main__":
         expected_mins = rtt.mins_left_calc(trains[0]['datetime_actual'])
 
         lcd.clear()
-        display_str = display.display(expected_mins, trains[0]['origin'], trains[0]['destination'])
+        display_str = display.display(str(expected_mins), trains[0]['origin'], trains[0]['destination'])
         lcd.write(display_str)
 
         sleep(5)  # Wait for a number of seconds minute
