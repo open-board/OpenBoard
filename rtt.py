@@ -37,8 +37,10 @@ def load_rtt_trains(html_str):
 
     output = list()
     for train in tree.xpath('//table/tr'):
+        realtime_str = train.xpath('td[contains(@class,"realtime")]')[0].text
         train_dict = {
-            'destination': train.xpath('td[@class="location"]/span')[1].text
+            'destination': train.xpath('td[@class="location"]/span')[1].text,
+            'is_cancelled': is_cancelled(realtime_str)
         }
         output.append(train_dict)
     return output

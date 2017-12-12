@@ -50,6 +50,9 @@ def test_load_rtt_trains():
     assert result[9]['destination'] == "Bristol Temple Meads"
     assert result[10]['destination'] == "Cardiff Central"
 
+    assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
+    assert result[2]['is_cancelled'] is True  # The third train in the list is cancelled
+
 
 def test_is_one():
 
