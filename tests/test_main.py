@@ -89,3 +89,20 @@ def test_display():
     assert 'min' in (display.display('1', 'Short name', 'Short name'))
     assert 'mins' in (display.display('2', 'Short name', 'Short name'))
     assert 'mins' in (display.display('20', 'Short name', 'Short name'))
+
+
+def test_is_cancelled():
+
+    '''Tests four types of input_string return expected outcomes from is_cancelled function'''
+
+    # Check cancelled
+    assert rtt.is_cancelled('Cancel') == True
+
+    # Check time
+    assert rtt.is_cancelled('1234') == False
+
+    # Check empty string
+    assert rtt.is_cancelled('') == False
+
+    # Check gobbledygook
+    assert rtt.is_cancelled('askjha7t91iewih%%') == False

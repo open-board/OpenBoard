@@ -64,3 +64,19 @@ def test_rtt_connection():
     else:
         # Return False
         return False
+
+def is_cancelled(input_string):
+
+    '''Returns True if input_string is 'Cancel', otherwise, returns False'''
+
+    # If input_string is 'Cancel' as a string
+    if input_string == 'Cancel':
+
+        # Return True
+        return True
+
+    # If input_string is not'Cancel' as a string
+    else:
+
+        # Return False
+        return False
