@@ -38,16 +38,37 @@ def test_load_rtt_trains():
     assert len(result) == 11  # There are 11 trains on the test data page.
 
     # Assert that the expected destination of each train is extracted.
+    assert result[0]['origin'] == "Cardiff Central"
     assert result[0]['destination'] == "Portsmouth Harbour"
+
+    assert result[1]['origin'] == "Worcester Shrub Hill"
     assert result[1]['destination'] == "Bristol Temple Meads"
+
+    assert result[2]['origin'] == "Tunstead Sdgs"
     assert result[2]['destination'] == "Westbury Lafarge"
+
+    assert result[3]['origin'] == "Bristol Temple Meads"
     assert result[3]['destination'] == "Stoke Gifford"
+
+    assert result[4]['origin'] == "Edinburgh"
     assert result[4]['destination'] == "Bristol Temple Meads"
+
+    assert result[5]['origin'] == "Bristol Temple Meads"
     assert result[5]['destination'] == "Leeds"
+
+    assert result[6]['origin'] == "Bristol Temple Meads"
     assert result[6]['destination'] == "Cheltenham Spa"
+
+    assert result[7]['origin'] == "Portsmouth Harbour"
     assert result[7]['destination'] == "Cardiff Central"
+
+    assert result[8]['origin'] == "Cardiff Central"
     assert result[8]['destination'] == "Portsmouth Harbour"
+
+    assert result[9]['origin'] == "Edinburgh"
     assert result[9]['destination'] == "Bristol Temple Meads"
+
+    assert result[10]['origin'] == "Portsmouth Harbour"
     assert result[10]['destination'] == "Cardiff Central"
 
     assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
