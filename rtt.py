@@ -116,3 +116,42 @@ def mins_left_calc(event_time, comparison_time=datetime.now()):
 
     # Return difference
     return difference
+
+
+def convert_time(time_string, time_accessed):
+
+    '''Converts input time_string to datetime using input time_accessed as reference.'''
+
+    # Save hour as integer
+    hour = int(time_string[0:2])
+
+    # Save minute as integer
+    minute = int(time_string[2:4])
+
+    # Default second to be 0
+    second = 0
+
+    # If fifth character is a fraction
+    if time_string[4:5] in ['¼', '½', '¾']:
+
+        # Save fraction as second
+        second = time_string[4:5]
+
+        # Save and convert fractions to relevant seconds as string
+        second = second.replace('¼', '15')
+        second = second.replace('½', '30')
+        second = second.replace('¾', '45')
+
+        # Save second as integer
+        second = int(second)
+
+    # Save converted_time by overwriting time_accessed datetime as relevant
+    converted_time = time_accessed.replace(hour=hour, minute=minute, second=second, microsecond=0)
+
+    # If time_string meant to be tomorrow
+    if (converted_time - time_accessed).days < 0:
+
+        # Add a day to converted_time
+        converted_time = converted_time + timedelta(days=1)
+
+    return converted_time
