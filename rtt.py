@@ -80,8 +80,17 @@ def is_time(input_string):
 
     '''Returns True if input_string is a time, otherwise, returns False'''
 
-    # Save first four characters of input_string
-    first_four = input_string[0:4]
+    # Try
+    try:
+        # Save first four characters of input_string
+        first_four = input_string[0:4]
+
+    # If cannot extract the first four characters of input_string
+    except TypeError:
+
+        # Return False
+        return False
+
 
     # Try
     try:

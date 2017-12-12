@@ -145,6 +145,9 @@ def test_is_time():
     # Test (Q)
     assert rtt.is_time('(Q)') is False
 
+    # Test a NoneType object
+    assert rtt.is_time(None) is False
+
 
 # Add half-minute test
 
