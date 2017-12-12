@@ -106,3 +106,35 @@ def test_is_cancelled():
 
     # Check gobbledygook
     assert rtt.is_cancelled('askjha7t91iewih%%') == False
+
+# Add half-minute test
+
+def test_mins_left_calc():
+
+    '''Tests three combinations of times return correct minutes left'''
+
+    # Test same times
+
+    # Define parameters
+    event_time_0 = datetime(2017, 12, 10, 22, 32, 38, 719196)
+    comparison_time_0 = datetime(2017, 12, 10, 22, 32, 38, 719196)
+    # Test
+    assert rtt.mins_left_calc(event_time_0, comparison_time_0) == 0
+
+
+    # Test event_time time in the past
+
+    # Define parameters
+    event_time_1 = datetime(2017, 12, 10, 22, 32, 38, 719196)
+    comparison_time_1 = datetime(2017, 12, 10, 22, 34, 38, 719196)
+    # Test
+    assert rtt.mins_left_calc(event_time_1, comparison_time_1) == -2
+
+
+    # Test event_time time in the future
+
+    # Define parameters
+    event_time_2 = datetime(2017, 12, 10, 22, 36, 38, 719196)
+    comparison_time_2 = datetime(2017, 12, 10, 22, 34, 38, 719196)
+    # Test
+    assert rtt.mins_left_calc(event_time_2, comparison_time_2) == 2

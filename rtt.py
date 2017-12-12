@@ -80,3 +80,39 @@ def is_cancelled(input_string):
 
         # Return False
         return False
+
+# Sort for half minutes using round() from math
+
+def mins_left_calc(event_time, comparison_time=datetime.now()):
+
+    '''
+    Returns integer of minutes to event_time from comparison_time.
+
+    Args:
+        event_time (datetime): The time of the event.
+        comparison_time (datetime): The time to compare the time of the event to.
+
+    Returns:
+        (Integer) Number of minutes to event_time from comparison_time.
+
+    Illustrative example:
+
+        Args:
+            event_time: Time in exactly two minutes as datetime
+            comparison_time: Time now as datetime
+
+        Returns:
+            2
+    '''
+
+    # Save difference between event_time and comparison_time as datetime.timedelta object
+    difference = event_time - comparison_time
+
+    # Save difference as minutes
+    difference = (difference.total_seconds()/60)
+
+    # Round difference to 0 decimal places
+    difference = int(difference)
+
+    # Return difference
+    return difference
