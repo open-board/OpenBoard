@@ -162,3 +162,37 @@ def test_mins_left_calc():
     comparison_time_2 = datetime(2017, 12, 10, 22, 34, 38, 719196)
     # Test
     assert rtt.mins_left_calc(event_time_2, comparison_time_2) == 2
+
+def test_convert_time():
+
+    '''Tests 8 types of input_string return expected outcomes from convert_time function'''
+
+    # Test morning time without quarter minute
+    assert rtt.convert_time('0823', datetime(2017, 12, 12, 7, 34, 31, 151351)) == datetime(2017, 12, 12, 8, 23, 0, 0)
+
+    # Test afternoon time without quarter minute
+    assert rtt.convert_time('1558', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 15, 58, 0, 0)
+
+    # Test evening time without quarter minute
+    assert rtt.convert_time('1903', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 19, 3, 0, 0)
+
+    # Test late evening time without quarter minute
+    assert rtt.convert_time('2321', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 23, 21, 0, 0)
+
+    # Test morning time with quarter minute
+    assert rtt.convert_time('0823¼', datetime(2017, 12, 12, 7, 34, 31, 151351)) == datetime(2017, 12, 12, 8, 23, 15, 0)
+
+    # Test afternoon time with quarter minute
+    assert rtt.convert_time('1558½', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 15, 58, 30, 0)
+
+    # Test evening time with quarter minute
+    assert rtt.convert_time('1903¾', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 19, 3, 45, 0)
+
+    # Test late evening time with quarter minute
+    assert rtt.convert_time('2321¼', datetime(2017, 12, 12, 10, 34, 31, 151351)) == datetime(2017, 12, 12, 23, 21, 15, 0)
+
+    # Test late evening time with no quarter minute and event due the next day
+    assert rtt.convert_time('0012', datetime(2017, 12, 12, 23, 14, 8, 302769)) == datetime(2017, 12, 13, 0, 12, 0, 0)
+
+    # Test late evening time with quarter minute and event due the next day
+    assert rtt.convert_time('0010¼', datetime(2017, 12, 12, 23, 0, 0, 0)) == datetime(2017, 12, 13, 0, 10, 15, 0)
