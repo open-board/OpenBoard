@@ -23,11 +23,12 @@ def generate_rtt_url(start_time=datetime.now()):
     return url
 
 
-def load_rtt_trains(html_str):
+def load_rtt_trains(html_str, datetime_accessed=datetime.now()):
     """Return train information from a Realtime Trains detailed listing HTML page.
 
     Args:
         html_str (str): HTML string representing a RTT detailed departure board page.
+        datetime_accessed (datetime): The time that the rtt page is accessed. Defaults to current time.
 
     Returns:
         list of dict: Containing data about each train on the input page.
@@ -38,11 +39,17 @@ def load_rtt_trains(html_str):
     output = list()
     for train in tree.xpath('//table/tr'):
         realtime_str = train.xpath('td[contains(@class,"realtime")]')[0].text
+
         train_dict = {
             'origin': train.xpath('td[@class="location"]/span')[0].text,
             'destination': train.xpath('td[@class="location"]/span')[1].text,
             'is_cancelled': is_cancelled(realtime_str)
         }
+        if train_dict['is_cancelled'] is True:
+            train_dict['datetime_actual'] = None
+        else:
+            train_dict['datetime_actual'] = convert_time(realtime_str, datetime_accessed)
+
         output.append(train_dict)
     return output
 

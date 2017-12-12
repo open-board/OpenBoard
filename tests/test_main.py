@@ -29,50 +29,61 @@ def test_generate_rtt_url_format(input_start_time, expected_date_result):
     assert time_range == expected_date_result[2]  # Time range
 
 
-def test_load_rtt_trains():
+def test_load_rtt_trains_content():
     """Test that an HTML result parses trains and returns a dictionary."""
     with open('tests/test_data/rtt_detailed_list_of_trains.html', 'r') as html_file:
         html_str = html_file.read()
-    result = rtt.load_rtt_trains(html_str)
+    datetime_accessed = datetime(2017, 12, 12, 18, 0)
+    result = rtt.load_rtt_trains(html_str, datetime_accessed)
 
     assert len(result) == 11  # There are 11 trains on the test data page.
 
     # Assert that the expected destination of each train is extracted.
     assert result[0]['origin'] == "Cardiff Central"
     assert result[0]['destination'] == "Portsmouth Harbour"
+    assert result[0]['datetime_actual'] == datetime(2017, 12, 12, 19, 57, 30)
 
     assert result[1]['origin'] == "Worcester Shrub Hill"
     assert result[1]['destination'] == "Bristol Temple Meads"
+    assert result[1]['datetime_actual'] == datetime(2017, 12, 12, 20, 8, 0)
+    assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
 
     assert result[2]['origin'] == "Tunstead Sdgs"
     assert result[2]['destination'] == "Westbury Lafarge"
+    assert result[2]['datetime_actual'] is None
+    assert result[2]['is_cancelled'] is True  # The third train in the list is cancelled
 
     assert result[3]['origin'] == "Bristol Temple Meads"
     assert result[3]['destination'] == "Stoke Gifford"
+    assert result[3]['datetime_actual'] == datetime(2017, 12, 12, 20, 21, 0)
 
     assert result[4]['origin'] == "Edinburgh"
     assert result[4]['destination'] == "Bristol Temple Meads"
+    assert result[4]['datetime_actual'] is None
 
     assert result[5]['origin'] == "Bristol Temple Meads"
     assert result[5]['destination'] == "Leeds"
+    assert result[5]['datetime_actual'] == datetime(2017, 12, 12, 20, 34, 0)
 
     assert result[6]['origin'] == "Bristol Temple Meads"
     assert result[6]['destination'] == "Cheltenham Spa"
+    assert result[6]['datetime_actual'] == datetime(2017, 12, 12, 20, 44, 0)
 
     assert result[7]['origin'] == "Portsmouth Harbour"
     assert result[7]['destination'] == "Cardiff Central"
+    assert result[7]['datetime_actual'] == datetime(2017, 12, 12, 20, 51, 0)
 
     assert result[8]['origin'] == "Cardiff Central"
     assert result[8]['destination'] == "Portsmouth Harbour"
+    assert result[8]['datetime_actual'] == datetime(2017, 12, 12, 21, 8, 0)
 
     assert result[9]['origin'] == "Edinburgh"
     assert result[9]['destination'] == "Bristol Temple Meads"
+    assert result[9]['datetime_actual'] == datetime(2017, 12, 12, 21, 37, 0)
 
     assert result[10]['origin'] == "Portsmouth Harbour"
     assert result[10]['destination'] == "Cardiff Central"
-
-    assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
-    assert result[2]['is_cancelled'] is True  # The third train in the list is cancelled
+    assert result[10]['datetime_actual'] == datetime(2017, 12, 12, 21, 49, 0)
 
 
 def test_is_one():
