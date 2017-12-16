@@ -121,7 +121,7 @@ def test_load_rtt_trains_content():
 
 
 def test_load_rtt_trains_default():
-    """."""
+    """Test that the current datetime is used when load_rtt_trains does not receive a datetime_accessed parameter."""
     html_str = '''
     <table class="table table-condensed servicelist advanced">
         <tr class="var pass inverse_stp">
@@ -130,17 +130,21 @@ def test_load_rtt_trains_default():
             <td></td>
             <td class="location"><span>Sample origin station</span></td>
             <td class="platform "></td>
-            <td><a href="/train/C50124/2017/12/10/advanced">1F35</a></td>
+            <td><a href="/train/C50124/2000/01/01/advanced">1F35</a></td>
             <td class="toc">GW</td>
             <td class="location"><span>Sample destination station</span></td>
             <td>0010</td>
-            <td class="realtime actual">0010</td>
+            <td class="realtime actual">0010</td> <!-- i.e. This refers to 0010 on 2nd January 2000. -->
         </tr>
     </table>
     '''
-    result = rtt.load_rtt_trains(html_str)
-    # Need to mock the time as 2359 on 1st january 2000
-    # Then assert that the datetime is 0010 on 2nd January 2000
+    mock_datetime = datetime(year=2000, month=1, day=1,
+                             hour=23, minute=59, second=0)
+
+    with freeze_time(mock_datetime):
+        result = rtt.load_rtt_trains(html_str)
+
+    assert result[0]['datetime_actual'] == datetime(2000, 1, 2, 0, 10)
 
 
 def test_mins_left_calc_default():

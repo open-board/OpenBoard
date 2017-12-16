@@ -26,16 +26,19 @@ def generate_rtt_url(start_time=None):
     return url
 
 
-def load_rtt_trains(html_str, datetime_accessed=datetime.now()):
+def load_rtt_trains(html_str, datetime_accessed=None):
     """Return train information from a Realtime Trains detailed listing HTML page.
 
     Args:
         html_str (str): HTML string representing a RTT detailed departure board page.
-        datetime_accessed (datetime): The time that the rtt page is accessed. Defaults to current time.
+        datetime_accessed (datetime): The time that the html_str was accessed. Defaults to None, which is latar set as the current time.
 
     Returns:
-        list of dict: Containing data about each train on the input page.
+        list of dict: Containing data about each train in the input html_str.
     """
+    if datetime_accessed is None:
+        datetime_accessed = datetime.now()
+
     parser = etree.HTMLParser()
     tree = etree.parse(StringIO(html_str), parser)
 
