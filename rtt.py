@@ -3,16 +3,19 @@ from io import StringIO
 from os import system
 from lxml import etree
 
-def generate_rtt_url(start_time=datetime.now()):
+def generate_rtt_url(start_time=None):
     """Create a Realtime Trains detailed listing URL from a specified start time.  The generated URL will look for movements that are expected for 24 hours following the input start time.
 
     Args:
-        start_time (datetime): The start time. Defaults to when the script is run.
+        start_time (datetime): The start time. Defaults to None, which is latar set as the current time.
 
     Returns:
         str: A URL for a Realtime Trains detailed departure board page.
     """
     URL_REAL_TIME_TRAINS = "http://www.realtimetrains.co.uk/search/advanced/STPLNAR/{yyyy}/{mm}/{dd}/{hhhh1}-{hhhh2}?stp=WVS&show=all&order=actual"
+
+    if start_time is None:
+        start_time = datetime.now()
 
     year = start_time.year
     time = "{hh}{mm}".format(hh=start_time.strftime('%H'), mm=start_time.strftime('%M'))

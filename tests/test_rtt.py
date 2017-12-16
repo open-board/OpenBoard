@@ -1,6 +1,8 @@
 import rtt
 import pytest
 from datetime import datetime
+from freezegun import freeze_time
+from time import sleep
 from urllib import parse
 
 @pytest.mark.parametrize("input_start_time", [
@@ -11,6 +13,19 @@ def test_generate_rtt_url_is_url(input_start_time):
     """Check that a valid URL is returned for an input_start_time."""
     result = rtt.generate_rtt_url(input_start_time)
     assert parse.urlparse(result)
+
+
+def test_generate_rtt_url_default():
+    """Test that the default start_time parameter generates a date based on the current time."""
+    mock_datetime = datetime(year=2000, month=1, day=10,
+                             hour=12, minute=0, second=0)
+    with freeze_time(mock_datetime):
+        result = rtt.generate_rtt_url()  # No parameters
+
+    time_range = result.split('/')[-1:][0].split('?')[0]
+    start_time = time_range.split('-')[0]
+    assert start_time == "{hh}{mm}".format(hh=mock_datetime.strftime('%H'), mm=mock_datetime.strftime('%M'))
+
 
 @pytest.mark.parametrize("input_start_time, expected_date_result", [
     (datetime(2017, 1, 1, 0, 0, 0), ("01", "01", "0000-2359")),  # Datetime with every aspect (year, month, day, hour, minute, second) as a single digit.
@@ -83,6 +98,35 @@ def test_load_rtt_trains_content():
     assert result[10]['origin'] == "Portsmouth Harbour"
     assert result[10]['destination'] == "Cardiff Central"
     assert result[10]['datetime_actual'] == datetime(2017, 12, 12, 21, 49, 0)
+
+
+def test_load_rtt_trains_default():
+    """."""
+    html_str = '''
+    <table class="table table-condensed servicelist advanced">
+        <tr class="var pass inverse_stp">
+            <td class="stp">VAR</td>
+            <td>pass</td>
+            <td></td>
+            <td class="location"><span>Sample origin station</span></td>
+            <td class="platform "></td>
+            <td><a href="/train/C50124/2017/12/10/advanced">1F35</a></td>
+            <td class="toc">GW</td>
+            <td class="location"><span>Sample destination station</span></td>
+            <td>0010</td>
+            <td class="realtime actual">0010</td>
+        </tr>
+    </table>
+    '''
+    result = rtt.load_rtt_trains(html_str)
+    # Need to mock the time as 2359 on 1st january 2000
+    # Then assert that the datetime is 0010 on 2nd January 2000
+
+
+def test_mins_left_calc_default():
+    pass
+    # Need to mock the current time as 00:10 1st january 2000
+    # Then assert that rtt.mins_left_calc("0000") returns 10
 
 
 def test_is_time():
