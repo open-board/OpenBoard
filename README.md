@@ -28,5 +28,5 @@ pip install -r requirements-dev.txt
 Run the tests using pytest
 
 ```
-PYTHONPATH=. py.test
+py.test
 ```
