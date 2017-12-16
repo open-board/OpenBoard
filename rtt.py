@@ -125,14 +125,14 @@ def is_time(input_string):
         return False
 
 
-def mins_left_calc(event_time, comparison_time=datetime.now()):
+def mins_left_calc(event_time, comparison_time=None):
 
     '''
     Returns integer of minutes to event_time from comparison_time.
 
     Args:
         event_time (datetime): The time of the event.
-        comparison_time (datetime): The time to compare the time of the event to.
+        comparison_time (datetime): The time to compare the time of the event to. Defaults to None, which is latar set as the current time.
 
     Returns:
         (Integer) Number of minutes to event_time from comparison_time.
@@ -146,6 +146,9 @@ def mins_left_calc(event_time, comparison_time=datetime.now()):
         Returns:
             2
     '''
+    # Set the event_time to the current time if no input is received.
+    if comparison_time is None:
+        comparison_time = datetime.now()
 
     # Save difference between event_time and comparison_time as datetime.timedelta object
     difference = event_time - comparison_time

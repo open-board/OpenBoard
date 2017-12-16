@@ -148,9 +148,16 @@ def test_load_rtt_trains_default():
 
 
 def test_mins_left_calc_default():
-    pass
-    # Need to mock the current time as 00:10 1st january 2000
-    # Then assert that rtt.mins_left_calc("0000") returns 10
+    """Test that the current datetime is used when mins_left_calc does not receive a comparison_time parameter."""
+    mock_datetime = datetime(year=2000, month=1, day=1,
+                             hour=0, minute=0, second=0)
+
+    with freeze_time(mock_datetime):
+        event_time = datetime(year=2000, month=1, day=1,
+                              hour=0, minute=10, second=0)
+        result = rtt.mins_left_calc(event_time=event_time)
+
+    assert result == 10  # i.e. There are 10 minutes between the mock_datetime and the event_time.
 
 
 def test_is_time():
