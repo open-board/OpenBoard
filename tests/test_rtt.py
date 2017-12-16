@@ -1,9 +1,28 @@
+import urllib.parse
 import rtt
 import pytest
+from collections import namedtuple
 from datetime import datetime
 from freezegun import freeze_time
-from time import sleep
-from urllib import parse
+
+def rtt_url_to_components(url):
+    """Return a named tuple containing the main URL query parameters from a Realtime Trains detailed listing URL.
+
+    Args:
+        url (str): The URL to return components for.
+
+    Returns:
+        namedtuple: Containing keys 'location' (str), 'year' (str), 'month' (str) and 'time_range' (str) for the input URL.
+    """
+    parse_result = urllib.parse.urlparse(url)
+    path_components = parse_result.path.split('/')
+    Rtt_url = namedtuple('Rtt_url', ['location', 'year', 'month', 'time_range'])
+    Rtt_url.location = path_components[3]
+    Rtt_url.year = path_components[4]
+    Rtt_url.month = path_components[5]
+    Rtt_url.day = path_components[6]
+    Rtt_url.time_range = path_components[7]
+    return Rtt_url
 
 @pytest.mark.parametrize("input_start_time", [
     datetime(2017, 1, 1, 0, 0, 0),  # Datetime with every aspect (year, month, day, hour, minute, second) as single digits.
@@ -12,7 +31,7 @@ from urllib import parse
 def test_generate_rtt_url_is_url(input_start_time):
     """Check that a valid URL is returned for an input_start_time."""
     result = rtt.generate_rtt_url(input_start_time)
-    assert parse.urlparse(result)
+    assert urllib.parse.urlparse(result)
 
 
 def test_generate_rtt_url_default():
@@ -22,8 +41,9 @@ def test_generate_rtt_url_default():
     with freeze_time(mock_datetime):
         result = rtt.generate_rtt_url()  # No parameters
 
-    time_range = result.split('/')[-1:][0].split('?')[0]
-    start_time = time_range.split('-')[0]
+    url_components = rtt_url_to_components(result)
+    start_time = url_components.time_range.split('-')[0]
+
     assert start_time == "{hh}{mm}".format(hh=mock_datetime.strftime('%H'), mm=mock_datetime.strftime('%M'))
 
 
@@ -35,12 +55,12 @@ def test_generate_rtt_url_default():
 def test_generate_rtt_url_format(input_start_time, expected_date_result):
     """Check that a URL containing the expected month, day and time formats is returned."""
     result = rtt.generate_rtt_url(input_start_time)
-    url_components = result.split('/')
+    url_components = rtt_url_to_components(result)
     time_range = result.split('/')[-1:][0].split('?')[0]
 
-    assert url_components[8] == expected_date_result[0]  # Day
-    assert url_components[7] == expected_date_result[1]  # Month
-    assert time_range == expected_date_result[2]  # Time range
+    assert url_components.day == expected_date_result[0]
+    assert url_components.month == expected_date_result[1]
+    assert url_components.time_range == expected_date_result[2]
 
 
 def test_load_rtt_trains_content():
