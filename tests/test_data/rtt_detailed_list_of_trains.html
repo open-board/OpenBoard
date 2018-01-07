@@ -1,0 +1,386 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Realtime Trains | Departures from Narroways Hill Jn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Realtime Trains provides live realtime running information for the full Great British railway network using open data." />
+    <meta name="author" content="swlines Ltd" />
+
+	<meta property="og:title" content="Realtime Trains | Departures from Narroways Hill Jn" />
+	<meta property="twitter:title" content="Realtime Trains | Departures from Narroways Hill Jn" />
+	<meta property="fb:app_id" content="431739190236635" />
+
+	<base href="http://www.realtimetrains.co.uk">
+    <link href="http://www.realtimetrains.co.uk/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.realtimetrains.co.uk/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.realtimetrains.co.uk/assets/css/rtt.css?20131027" rel="stylesheet">
+	<link href="http://www.realtimetrains.co.uk/assets/css/rtt-apps.css?20131027" rel="stylesheet">
+	<link href="http://www.realtimetrains.co.uk/assets/css/glyphicons.css" rel="stylesheet">
+	<link href="http://www.realtimetrains.co.uk/assets/css/glyphicons-halflings.css" rel="stylesheet">
+	<link href="http://www.realtimetrains.co.uk/assets/css/glyphicons-social.css" rel="stylesheet">
+
+    <script src="http://www.realtimetrains.co.uk/assets/js/modernizr.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+  </head>
+
+  <body class="home">
+<a name="top"></a>
+<div class="navbar-bg">
+<div class="container">
+    <div class="navbar">
+
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Realtime Trains</a>
+          <div class="nav-collapse collapse">
+			<div>
+            <ul class="nav">
+			  <li><a href="http://blog.realtimetrains.co.uk">News</a></li>
+			  <li class="active"><a href="/search">Search</a></li>
+			  <li ><a href="/apps">Apps</a></li>
+            </ul>
+          </div>
+
+		<form class="pull-right navbar-search" method="get" action="/search/advancedhandler"><input type="hidden" name="type" value="advanced" />		<input type="hidden" name="qs" value="true" />
+		<input type="text" class="search-query span10" name="search" placeholder="Quick Search" />
+	  </form>
+        </div>
+	  </div>
+</div>
+</div>
+<div class="container spacer">
+	<form class="hide-labels advanced" action="/search/advancedhandler" method="get">
+		<input type="hidden" name="type" value="advanced" />
+		<div class="row toolbarblock">
+			<div class="span9">
+				<h6>Location, Date &amp; TOC</h6>
+				<div class="input-row">
+					<input id="location" class="span9" name="location" placeholder="Location" type="text" value="Narroways Hill Jn" />
+				</div>
+				<div class="input-row share">
+					<input id="date" name="date" placeholder="Today" class="span5 share-mobile" type="text" value="10/12/2017" />
+					<select name="toc" id="toc" class="span4 share-mobile">
+						<option value="All">All</option>
+						<option value="AW" >AW - Arriva Trains Wales</option><option value="CC" >CC - c2c</option><option value="CH" >CH - Chiltern Railways</option><option value="CS" >CS - Caledonian Sleeper</option><option value="EM" >EM - East Midlands Trains</option><option value="ES" >ES - Eurostar</option><option value="GC" >GC - Grand Central</option><option value="GN" >GN - Great Northern</option><option value="GR" >GR - Virgin Trains East Coast</option><option value="GW" >GW - Great Western Railway</option><option value="GX" >GX - Gatwick Express</option><option value="HC" >HC - Heathrow Connect</option><option value="HT" >HT - Hull Trains</option><option value="HX" >HX - Heathrow Express</option><option value="IL" >IL - Island Line</option><option value="LE" >LE - Greater Anglia</option><option value="LM" >LM - London Midland</option><option value="LO" >LO - London Overground</option><option value="LT" >LT - London Underground</option><option value="ME" >ME - Merseyrail</option><option value="NT" >NT - Northern</option><option value="NY" >NY - North Yorkshire Moors Railway</option><option value="SE" >SE - Southeastern</option><option value="SN" >SN - Southern</option><option value="SR" >SR - ScotRail</option><option value="SW" >SW - South Western Railway</option><option value="TL" >TL - Thameslink</option><option value="TP" >TP - First Transpennine Express</option><option value="TW" >TW - Metro (Tyne & Wear)</option><option value="VT" >VT - Virgin Trains (West Coast)</option><option value="WR" >WR - West Coast Railway Company</option><option value="XC" >XC - CrossCountry</option><option value="XR" >XR - TfL Rail</option><option value="ZZ" >ZZ</option>					</select>
+				</div>
+			</div>
+			<div class="visible-phone phone-menu span1">
+				<small>
+					<a id="extra-detail-show">Show extra search options</a>
+					<a id="extra-detail-hide">Hide extra search options</a>
+				</small>
+			</div>
+			<span class="additional-detail">
+				<div class="span9">
+					<h6>Calling at?</h6>
+					<div class="input-row">
+						<input id="earlier_cp" class="span9" name="earlier_cp" placeholder="Earlier" type="text" value="" />
+					</div>
+					<div class="input-row">
+						<input id="later_cp" class="span9" name="later_cp" placeholder="Later" type="text" value="" />
+					</div>
+				</div>
+				<div class="span7">
+					<h6>What time?</h6>
+					<div class="input-row">
+						<select class="span7" name="timespan" id="combi_timespan">
+							<optgroup label="Automatic Time">
+								<option value="now" >Around now</option>
+								<option value="fullday"  >0000 - 2359</option>
+								<option value="operational"  >0200 - 0159</option>
+								<option value="daylight"  >0600 - 2000</option>
+							</optgroup>
+							<optgroup label="Custom Time">
+								<option value="aroundcustom"  >Around time</option>
+								<option value="fullcustom" selected="selected" >Custom times</option>
+							</optgroup>
+						</select>
+					</div>
+					<div class="input-row share">
+						<input id="time_start" name="time_start" placeholder="" class="share" type="text" value="2000" />
+						<input id="time_end" name="time_end" placeholder="" class="share" type="text" value="2200" />
+					</div>
+				</div>
+				<div class="span7">
+					<h6>Services?</h6>
+					<div class="input-row">
+						<select class="span7" name="show" id="show">
+							<optgroup label="All services">
+								<option value="all" selected="selected">All Services</option>
+								<option value="call" >Calls only</option>
+								<option value="pax-calls" >Passenger calls</option>
+								<option value="pass" >Passes only</option>
+							</optgroup>
+							<optgroup label="Alternatives">
+								<option value="passenger" >Passenger services</option>
+								<option value="non-passenger" >Non-passenger services</option>
+								<option value="freight" >Freight services</option>
+							</optgroup>
+						</select>
+					</div>
+					<div class="input-row">
+						<select class="span7" name="order" id="order">
+							<option value="wtt" selected="selected">WTT order</option>
+							<option value="actual" >Actual order</option>
+						</select>
+					</div>
+				</div>
+				<div class="span6">
+					<h6>STP</h6>
+					<div class="input-row">
+						<div class="stp-indicator-block">
+							<div class="stp-indicator" stp="wtt" title="Shows services in the long term timetable that haven't been cancelled">
+								<span class="add-on">WTT</span>
+							</div>
+							<div class="stp-indicator" stp="var" title="Shows services that have been altered in the long term timetable">
+								<span class="add-on">VAR</span>
+							</div>
+							<div class="stp-indicator" stp="stp" title="Shows short term additional services">
+								<span class="add-on">STP</span>
+							</div>
+							<div class="stp-indicator" stp="can" title="Shows services in the long term timetable that have been planned as cancelled">
+								<span class="add-on">CAN</span>
+							</div>
+							<input stp="wtt" type="hidden" name="stp_wtt" value="1" />
+							<input stp="var" type="hidden" name="stp_var" value="1" />
+							<input stp="stp" type="hidden" name="stp_stp" value="1" />
+							<input stp="can" type="hidden" name="stp_can" value="0" />
+						</div>
+					</div>
+				</div>
+			</span>
+			<div class="span6">
+				<h6>Search</h6>
+				<div class="input-row">
+					<input type="submit" class="btn btn-primary span6 submit" value="Submit" />
+				</div>
+				<small class="pull-right"><a href="/search/basic/STPLNAR/2017/12/10/2000">Switch to Simple</a></small>			</div>
+		</div>
+	<hr />
+	<div id="plusminus" class="clearfix">
+	<div class="pull-right btn-plusminus adsprovisioned"><input type="submit" name="plus-hour" class="btn" value="+1 hr" /></div>
+			<div class="pull-left btn-plusminus adsprovisioned"><input type="submit" name="minus-hour" class="btn" value="-1 hr" /></div>
+		<div style="text-align: center;" id="google-ad-advanced"><script type="text/javascript"><!--
+			adUnit = document.getElementById("google-ad-advanced");
+			adWidth = adUnit.offsetWidth;
+
+			google_ad_client = "ca-pub-3865989515969468";
+			/* Realtime Trains */
+
+			if(adWidth >= 768) {
+				google_ad_slot = "5968779260";
+				google_ad_width = 728;
+				google_ad_height = 90;
+			}
+			else if(adWidth >= 630) {
+				google_ad_slot = "1883529616";
+				google_ad_width = 468;
+				google_ad_height = 60;
+			}
+			else {
+				google_ad_slot = "7788537613";
+				google_ad_width = 234;
+				google_ad_height = 60;
+			}
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script></div>
+	</div>
+
+	</form>
+	<table class="table table-condensed servicelist advanced"><thead>				<tr>
+					<th class="stp span2">Ind</th>
+					<th class="span2">Plan Arr</th>
+					<th class="span2">Act Arr</th>
+					<th class="location">Origin</th>
+					<th class="platform span1">Pl</th>
+					<th class="span2">ID</th>
+					<th class="toc span1">TOC</th>
+					<th class="location">Destination</th>
+					<th class="span2">Plan Dep</th>
+					<th class="span2">Act Dep</th>
+				</tr></thead><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Cardiff Central</span></td><td class="platform "></td><td><a href="/train/C50124/2017/12/10/advanced">1F35</a></td><td class="toc">GW</td><td class="location"><span>Portsmouth Harbour</span></td><td>2001</td><td class="realtime actual">1957&frac12;</td></tr><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Worcester Shrub Hill</span></td><td class="platform "></td><td><a href="/train/C50869/2017/12/10/advanced">2T45</a></td><td class="toc">GW</td><td class="location"><span>Bristol Temple Meads</span></td><td>2006&frac12;</td><td class="realtime ">2008</td></tr><tr class="wtt nonpassenger pass"><td class="stp">WTT</td><td>pass</td><td></td><td class="location"><span>Tunstead Sdgs</span></td><td class="platform "></td><td><a href="/train/H34674/2017/12/10/advanced">605S</a></td><td class="toc">ZZ</td><td class="location"><span>Westbury Lafarge</span></td><td>2017</td><td class="realtime">Cancel</td></tr><tr class="var nonpassenger pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Bristol Temple Meads</span></td><td class="platform "></td><td><a href="/train/C51003/2017/12/10/advanced">5C25</a></td><td class="toc">GW</td><td class="location"><span>Stoke Gifford</span></td><td>2021&frac12;</td><td class="realtime ">2021</td></tr><tr class="stp pass inverse_stp"><td class="stp">STP</td><td>pass</td><td></td><td class="location"><span>Edinburgh</span></td><td class="platform "></td><td><a href="/train/K76732/2017/12/10/advanced">1Z65</a></td><td class="toc">XC</td><td class="location"><span>Bristol Temple Meads</span></td><td>2027</td><td class="realtime">Cancel</td></tr><tr class="stp pass inverse_stp"><td class="stp">STP</td><td>pass</td><td></td><td class="location"><span>Bristol Temple Meads</span></td><td class="platform "></td><td><a href="/train/K76726/2017/12/10/advanced">1Z75</a></td><td class="toc">XC</td><td class="location"><span>Leeds</span></td><td>2034</td><td class="realtime ">2034</td></tr><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Bristol Temple Meads</span></td><td class="platform "></td><td><a href="/train/C50407/2017/12/10/advanced">2E48</a></td><td class="toc">GW</td><td class="location"><span>Cheltenham Spa</span></td><td>2044</td><td class="realtime ">2044</td></tr><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Portsmouth Harbour</span></td><td class="platform "></td><td><a href="/train/C50121/2017/12/10/advanced">1F32</a></td><td class="toc">GW</td><td class="location"><span>Cardiff Central</span></td><td>2051</td><td class="realtime ">2051</td></tr><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Cardiff Central</span></td><td class="platform "></td><td><a href="/train/C50126/2017/12/10/advanced">1F37</a></td><td class="toc">GW</td><td class="location"><span>Portsmouth Harbour</span></td><td>2110</td><td class="realtime ">2108</td></tr><tr class="stp pass inverse_stp"><td class="stp">STP</td><td>pass</td><td></td><td class="location"><span>Edinburgh</span></td><td class="platform "></td><td><a href="/train/K76731/2017/12/10/advanced">1Z68</a></td><td class="toc">XC</td><td class="location"><span>Bristol Temple Meads</span></td><td>2127</td><td class="realtime ">2137</td></tr><tr class="var pass inverse_stp"><td class="stp">VAR</td><td>pass</td><td></td><td class="location"><span>Portsmouth Harbour</span></td><td class="platform "></td><td><a href="/train/C50123/2017/12/10/advanced">1F34</a></td><td class="toc">GW</td><td class="location"><span>Cardiff Central</span></td><td>2151</td><td class="realtime ">2149</td></tr></table></div>		<footer>
+			<div class="container">
+				<hr />
+				<div class="row">
+					<div class="span30">
+						<small>
+							<p><strong>&copy; 2011-2016</strong> swlines Ltd. All rights reserved. Data sourced from <a href="/about/sources">Network Rail, TfL &amp; other sources</a>.</p>
+							<p><a href="http://twitter.com/realtimetrains" alt="Follow us on Twitter"><i class="social-icon twitter"></i></a><a href="http://facebook.com/RealtimeTrains" alt="Find us on Facebook"><i class="social-icon facebook"></i></a><a href="https://plus.google.com/111328615342962417776" alt="Add us to your circles on Google+"><i class="social-icon google_plus"></i></a></p>
+						</small>
+					</div>
+					<div class="span14 quickstartlist hidden-phone">
+						<h5>Helpful Links</h5>
+						<small>
+							<ul>
+								<li><a href="/about">About</a> &amp; <a href="/faq">FAQs</a></li>
+								<li><a href="/about/developer">For Developers</a></li>
+								<li><a href="/about/legal">Terms of Use</a> | <a href="/about/cookies">Cookies</a></li>
+							</ul>
+						</small>
+					</div>
+					<div class="span14 visible-phone">
+						<small><a href="/about">About</a> | <a href="/faq">FAQs</a> | <a href="/about/legal">Terms of Use</a> | <a href="/about/cookies">Cookies</a></small>
+					</div>
+				</div>
+			</div>
+		</footer>
+    <script src="http://www.realtimetrains.co.uk/assets/js/jquery.js"></script>
+	<script src="http://www.realtimetrains.co.uk/assets/js/typeahead.js"></script>
+	<script src="http://www.realtimetrains.co.uk/assets/js/bootstrap-transition.js"></script>
+	<script src="http://www.realtimetrains.co.uk/assets/js/bootstrap-collapse.js"></script>
+
+<link href="http://www.realtimetrains.co.uk/assets/css/datepicker.css" rel="stylesheet"><script src="http://www.realtimetrains.co.uk/assets/js/datepicker.js"></script><script type="text/javascript">
+
+jQuery(document).ready(function() {
+	jQuery.each(jQuery('input[stp]'), function(index, value) {
+		if(jQuery(value).val() == "1") {
+			jQuery('.stp-indicator[stp="'+ jQuery(value).attr('stp') +'"]').toggleClass('selected');
+		}
+	});
+
+	jQuery('.stp-indicator').click(function() {
+		jQuery(this).toggleClass('selected');
+		var toggle = jQuery('input[stp="'+ jQuery(this).attr('stp') +'"]');
+		toggle.val(toggle.val() == "1" ? "0" : "1");
+	});
+
+	jQuery('#extra-detail-show').click(function() {
+		jQuery('#extra-detail-show').hide();
+		jQuery('.additional-detail').show();
+		jQuery('#extra-detail-hide').show();
+	});
+
+	jQuery('#extra-detail-hide').click(function() {
+		jQuery('#extra-detail-hide').hide();
+		jQuery('.additional-detail').hide();
+		jQuery('#extra-detail-show').show();
+	});
+
+	jQuery("#combi_timespan").change(function(){
+		changeDate(true);
+	});
+
+	changeDate(false);
+	var isOperaMini = Object.prototype.toString.call(window.operamini) === "[object OperaMini]";
+
+	if(!isOperaMini) {
+		jQuery('#location,#earlier_cp,#later_cp').typeahead({
+			name: 'rtt-locations',
+			prefetch: {
+				url:'/ajax/locations?type=locations',
+				filter: function(response) {
+					jQuery.each(response, function(i, value) {
+						value.value = value.description;
+						value.tokens = [value.description, value.crs];
+					});
+
+					return response;
+				}
+			}
+		});
+
+		startDate = new Date(); startDate.setDate(startDate.getDate() - 7);
+		endDate = new Date(); endDate.setDate(endDate.getDate() + 89);
+
+		jQuery('#date').datepicker({
+			format: 'dd/mm/yyyy',
+			startDate: startDate,
+			endDate: endDate,
+			autoclose: true
+		});
+	}
+	else if(!jQuery('.additional-detail').is(':visible')){
+		jQuery('#extra-detail-show').hide();
+		jQuery('.additional-detail').show();
+	}
+
+});
+
+function changeDate(change) {
+	var val = jQuery("#combi_timespan").val();
+
+	if(change) {
+		jQuery("#time_start").prop('value', '');
+		jQuery("#time_end").prop('value', '');
+		jQuery(".btn-plusminus").slideUp();
+	}
+
+	jQuery("#time_start").prop('disabled', true);
+	jQuery("#time_end").prop('disabled', true);
+
+	var d = new Date();
+	var day = d.getDate();
+	var month = d.getMonth() +1;
+	var year = d.getFullYear();
+	var hour = d.getHours();
+	var mins = d.getMinutes();
+
+	if(mins < 10) {
+		mins = "0" + mins;
+	}
+
+	if(hour < 10) {
+		hour = "0" + hour;
+	}
+
+	if(val == "now") {
+		jQuery("#date").prop('disabled', true);
+		jQuery("#date").val('Today');
+	} else {
+		jQuery("#date").prop('disabled', false);
+		if(jQuery("#date").val() == 'Today' || jQuery("#date").val() == "") {
+			jQuery("#date").val(day + "/" + month + "/" + year);
+		}
+	}
+
+	if(val == "now" || val == "fullday" || val == "operational" || val == "daylight") {
+		jQuery("#time_start").attr('placeholder', '');
+		jQuery("#time_end").attr('placeholder', '');
+	}
+	else if(val == "aroundcustom") {
+		jQuery("#time_start").prop('disabled', false);
+		jQuery("#time_start").attr('placeholder', 'Time');
+		jQuery("#time_end").attr('placeholder', '');
+
+		if(change) {
+			jQuery("#time_start").prop('value', hour + "" + mins);
+		}
+	}
+	else if(val == "fullcustom") {
+		jQuery("#time_start").prop('disabled', false);
+		jQuery("#time_end").prop('disabled', false);
+
+		jQuery("#time_start").attr('placeholder', 'Start');
+		jQuery("#time_end").attr('placeholder', 'End');
+	}
+}
+
+</script>	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-35750434-1']);
+	  _gaq.push(['_setDomainName', 'realtimetrains.co.uk']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+  </body>
+</html>
