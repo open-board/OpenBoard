@@ -1,8 +1,28 @@
-import display
+import urllib.parse
 import rtt
 import pytest
+from collections import namedtuple
 from datetime import datetime
-from urllib import parse
+from freezegun import freeze_time
+
+def rtt_url_to_components(url):
+    """Return a named tuple containing the main URL query parameters from a Realtime Trains detailed listing URL.
+
+    Args:
+        url (str): The URL to return components for.
+
+    Returns:
+        namedtuple: Containing keys 'location' (str), 'year' (str), 'month' (str) and 'time_range' (str) for the input URL.
+    """
+    parse_result = urllib.parse.urlparse(url)
+    path_components = parse_result.path.split('/')
+    Rtt_url = namedtuple('Rtt_url', ['location', 'year', 'month', 'time_range'])
+    Rtt_url.location = path_components[3]
+    Rtt_url.year = path_components[4]
+    Rtt_url.month = path_components[5]
+    Rtt_url.day = path_components[6]
+    Rtt_url.time_range = path_components[7]
+    return Rtt_url
 
 @pytest.mark.parametrize("input_start_time", [
     datetime(2017, 1, 1, 0, 0, 0),  # Datetime with every aspect (year, month, day, hour, minute, second) as single digits.
@@ -11,7 +31,21 @@ from urllib import parse
 def test_generate_rtt_url_is_url(input_start_time):
     """Check that a valid URL is returned for an input_start_time."""
     result = rtt.generate_rtt_url(input_start_time)
-    assert parse.urlparse(result)
+    assert urllib.parse.urlparse(result)
+
+
+def test_generate_rtt_url_default():
+    """Test that the default start_time parameter generates a date based on the current time."""
+    mock_datetime = datetime(year=2000, month=1, day=10,
+                             hour=12, minute=0, second=0)
+    with freeze_time(mock_datetime):
+        result = rtt.generate_rtt_url()  # No parameters
+
+    url_components = rtt_url_to_components(result)
+    start_time = url_components.time_range.split('-')[0]
+
+    assert start_time == "{hh}{mm}".format(hh=mock_datetime.strftime('%H'), mm=mock_datetime.strftime('%M'))
+
 
 @pytest.mark.parametrize("input_start_time, expected_date_result", [
     (datetime(2017, 1, 1, 0, 0, 0), ("01", "01", "0000-2359")),  # Datetime with every aspect (year, month, day, hour, minute, second) as a single digit.
@@ -21,12 +55,12 @@ def test_generate_rtt_url_is_url(input_start_time):
 def test_generate_rtt_url_format(input_start_time, expected_date_result):
     """Check that a URL containing the expected month, day and time formats is returned."""
     result = rtt.generate_rtt_url(input_start_time)
-    url_components = result.split('/')
+    url_components = rtt_url_to_components(result)
     time_range = result.split('/')[-1:][0].split('?')[0]
 
-    assert url_components[8] == expected_date_result[0]  # Day
-    assert url_components[7] == expected_date_result[1]  # Month
-    assert time_range == expected_date_result[2]  # Time range
+    assert url_components.day == expected_date_result[0]
+    assert url_components.month == expected_date_result[1]
+    assert url_components.time_range == expected_date_result[2]
 
 
 def test_load_rtt_trains_content():
@@ -46,12 +80,12 @@ def test_load_rtt_trains_content():
     assert result[1]['origin'] == "Worcester Shrub Hill"
     assert result[1]['destination'] == "Bristol Temple Meads"
     assert result[1]['datetime_actual'] == datetime(2017, 12, 12, 20, 8, 0)
-    assert result[1]['is_cancelled'] is False  # The second train in the list running late, but not cancelled
+    assert result[1]['is_running'] is True  # The second train in the list running late, but not cancelled
 
     assert result[2]['origin'] == "Tunstead Sdgs"
     assert result[2]['destination'] == "Westbury Lafarge"
     assert result[2]['datetime_actual'] is None
-    assert result[2]['is_cancelled'] is True  # The third train in the list is cancelled
+    assert result[2]['is_running'] is False  # The third train in the list is cancelled
 
     assert result[3]['origin'] == "Bristol Temple Meads"
     assert result[3]['destination'] == "Stoke Gifford"
@@ -86,61 +120,68 @@ def test_load_rtt_trains_content():
     assert result[10]['datetime_actual'] == datetime(2017, 12, 12, 21, 49, 0)
 
 
-def test_is_one():
+def test_load_rtt_trains_default():
+    """Test that the current datetime is used when load_rtt_trains does not receive a datetime_accessed parameter."""
+    html_str = '''
+    <table class="table table-condensed servicelist advanced">
+        <tr class="var pass inverse_stp">
+            <td class="stp">VAR</td>
+            <td>pass</td>
+            <td></td>
+            <td class="location"><span>Sample origin station</span></td>
+            <td class="platform "></td>
+            <td><a href="/train/C50124/2000/01/01/advanced">1F35</a></td>
+            <td class="toc">GW</td>
+            <td class="location"><span>Sample destination station</span></td>
+            <td>0010</td>
+            <td class="realtime actual">0010</td> <!-- i.e. This refers to 0010 on 2nd January 2000. -->
+        </tr>
+    </table>
+    '''
+    mock_datetime = datetime(year=2000, month=1, day=1,
+                             hour=23, minute=59, second=0)
 
-    '''Tests that a range of input strings always return expected boolean outcomes.'''
+    with freeze_time(mock_datetime):
+        result = rtt.load_rtt_trains(html_str)
 
-    # Test strings
-    assert display.is_one('1') is True
-    assert display.is_one('2') is False
-    assert display.is_one('10') is False
-    assert display.is_one('a') is False
-    assert display.is_one('aa') is False
-
-
-def test_fill_line():
-
-    '''Tests that a range of input strings always return 16 character strings.'''
-
-    # Test strings
-    assert len(display.fill_line('asdiasd')) == 16
-    assert len(display.fill_line('123')) == 16
-    assert len(display.fill_line('This is a really long line, more than 16 characters')) == 16
-
-
-def test_display():
-
-    '''Tests that a range of input strings always return expected outcomes.'''
-
-    # Test length
-    assert len(display.display('10',
-                               'A very, very, very, very, long station name',
-                               'Another very, very, very, very, long station name')) == 48
-    assert len(display.display('1',
-                               'Short name',
-                               'Short name')) == 48
-
-    # Test correct 'min' or 'mins' appear
-    assert 'min' in (display.display('1', 'Short name', 'Short name'))
-    assert 'mins' in (display.display('2', 'Short name', 'Short name'))
-    assert 'mins' in (display.display('20', 'Short name', 'Short name'))
+    assert result[0]['datetime_actual'] == datetime(2000, 1, 2, 0, 10)
 
 
-def test_is_cancelled():
+def test_mins_left_calc_default():
+    """Test that the current datetime is used when mins_left_calc does not receive a comparison_time parameter."""
+    mock_datetime = datetime(year=2000, month=1, day=1,
+                             hour=0, minute=0, second=0)
 
-    '''Tests four types of input_string return expected outcomes from is_cancelled function'''
+    with freeze_time(mock_datetime):
+        event_time = datetime(year=2000, month=1, day=1,
+                              hour=0, minute=10, second=0)
+        result = rtt.mins_left_calc(event_time=event_time)
 
-    # Check cancelled
-    assert rtt.is_cancelled('Cancel') == True
+    assert result == 10  # i.e. There are 10 minutes between the mock_datetime and the event_time.
 
-    # Check time
-    assert rtt.is_cancelled('1234') == False
 
-    # Check empty string
-    assert rtt.is_cancelled('') == False
+def test_is_time():
 
-    # Check gobbledygook
-    assert rtt.is_cancelled('askjha7t91iewih%%') == False
+    '''Tests four types of input_string return expected outcomes from is_time function'''
+
+    # Test cancelled
+    assert rtt.is_time('Cancel') is False
+
+    # Test time
+    assert rtt.is_time('1234') is True
+
+    # Test empty string
+    assert rtt.is_time('') is False
+
+    # Test gobbledygook
+    assert rtt.is_time('askjha7t91iewih%%') is False
+
+    # Test (Q)
+    assert rtt.is_time('(Q)') is False
+
+    # Test a NoneType object
+    assert rtt.is_time(None) is False
+
 
 # Add half-minute test
 

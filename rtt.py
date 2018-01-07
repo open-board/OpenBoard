@@ -3,16 +3,19 @@ from io import StringIO
 from os import system
 from lxml import etree
 
-def generate_rtt_url(start_time=datetime.now()):
+def generate_rtt_url(start_time=None):
     """Create a Realtime Trains detailed listing URL from a specified start time.  The generated URL will look for movements that are expected for 24 hours following the input start time.
 
     Args:
-        start_time (datetime): The start time. Defaults to when the script is run.
+        start_time (datetime): The start time. Defaults to None, which is latar set as the current time.
 
     Returns:
         str: A URL for a Realtime Trains detailed departure board page.
     """
     URL_REAL_TIME_TRAINS = "http://www.realtimetrains.co.uk/search/advanced/STPLNAR/{yyyy}/{mm}/{dd}/{hhhh1}-{hhhh2}?stp=WVS&show=all&order=actual"
+
+    if start_time is None:
+        start_time = datetime.now()
 
     year = start_time.year
     time = "{hh}{mm}".format(hh=start_time.strftime('%H'), mm=start_time.strftime('%M'))
@@ -23,16 +26,19 @@ def generate_rtt_url(start_time=datetime.now()):
     return url
 
 
-def load_rtt_trains(html_str, datetime_accessed=datetime.now()):
+def load_rtt_trains(html_str, datetime_accessed=None):
     """Return train information from a Realtime Trains detailed listing HTML page.
 
     Args:
         html_str (str): HTML string representing a RTT detailed departure board page.
-        datetime_accessed (datetime): The time that the rtt page is accessed. Defaults to current time.
+        datetime_accessed (datetime): The time that the html_str was accessed. Defaults to None, which is latar set as the current time.
 
     Returns:
-        list of dict: Containing data about each train on the input page.
+        list of dict: Containing data about each train in the input html_str.
     """
+    if datetime_accessed is None:
+        datetime_accessed = datetime.now()
+
     parser = etree.HTMLParser()
     tree = etree.parse(StringIO(html_str), parser)
 
@@ -43,9 +49,9 @@ def load_rtt_trains(html_str, datetime_accessed=datetime.now()):
         train_dict = {
             'origin': train.xpath('td[@class="location"]/span')[0].text,
             'destination': train.xpath('td[@class="location"]/span')[1].text,
-            'is_cancelled': is_cancelled(realtime_str)
+            'is_running': is_time(realtime_str)
         }
-        if train_dict['is_cancelled'] is True:
+        if train_dict['is_running'] is False:
             train_dict['datetime_actual'] = None
         else:
             train_dict['datetime_actual'] = convert_time(realtime_str, datetime_accessed)
@@ -75,11 +81,38 @@ def test_rtt_connection():
         # Return False
         return False
 
-def is_cancelled(input_string):
 
-    '''Returns True if input_string is 'Cancel', otherwise, returns False'''
+def is_time(input_string):
 
-    # If input_string is 'Cancel' as a string
+    '''Returns True if input_string is a time, otherwise, returns False'''
+
+    # Try
+    try:
+        # Save first four characters of input_string
+        first_four = input_string[0:4]
+
+    # If cannot extract the first four characters of input_string
+    except TypeError:
+
+        # Return False
+        return False
+
+
+    # Try
+    try:
+        # To convert first_four into integer
+        int(first_four)
+
+        # If converts, return True
+        return True
+
+    # If first_four does not convert to an Integer
+    except ValueError:
+
+        # Return False
+        return False
+
+
     if input_string == 'Cancel':
 
         # Return True
@@ -91,16 +124,15 @@ def is_cancelled(input_string):
         # Return False
         return False
 
-# Sort for half minutes using round() from math
 
-def mins_left_calc(event_time, comparison_time=datetime.now()):
+def mins_left_calc(event_time, comparison_time=None):
 
     '''
     Returns integer of minutes to event_time from comparison_time.
 
     Args:
         event_time (datetime): The time of the event.
-        comparison_time (datetime): The time to compare the time of the event to.
+        comparison_time (datetime): The time to compare the time of the event to. Defaults to None, which is latar set as the current time.
 
     Returns:
         (Integer) Number of minutes to event_time from comparison_time.
@@ -114,6 +146,9 @@ def mins_left_calc(event_time, comparison_time=datetime.now()):
         Returns:
             2
     '''
+    # Set the event_time to the current time if no input is received.
+    if comparison_time is None:
+        comparison_time = datetime.now()
 
     # Save difference between event_time and comparison_time as datetime.timedelta object
     difference = event_time - comparison_time
